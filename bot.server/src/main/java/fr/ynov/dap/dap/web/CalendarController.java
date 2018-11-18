@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.ynov.dap.dap.google.CalendarService;
+import fr.ynov.dap.dap.exeption.NoEventExeption;
 import fr.ynov.dap.dap.model.CalendarModel;
+import fr.ynov.dap.dap.service.CalendarService;
 
 
 /**
@@ -30,12 +31,11 @@ public class CalendarController {
 	 * @return the next event
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws GeneralSecurityException the general security exception
+	 * @throws NoEventExeption 
 	 */
 	@RequestMapping(value="/nextEvent")
 	public CalendarModel getNextEvent(@RequestParam("userKey") final String userId) throws
-	IOException, GeneralSecurityException {
-		
-		return calendarService.getNextEvent(userId);
-		
+	IOException, GeneralSecurityException, NoEventExeption {
+		return calendarService.getNextEventAllAccount(userId);
 	}
 }

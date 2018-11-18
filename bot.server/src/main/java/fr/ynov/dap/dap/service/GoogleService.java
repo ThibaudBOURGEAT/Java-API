@@ -1,4 +1,4 @@
-package fr.ynov.dap.dap.google;
+package fr.ynov.dap.dap.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class GoogleService {
 	@Autowired
 	protected Config configuration;
 	
-	private final Logger LOG = LogManager.getLogger(GoogleAccount.class);
+	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	
 	/** The json factory. */ 
 	protected static final JacksonFactory JACKSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -71,7 +71,7 @@ public class GoogleService {
 	 * @return the flow
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	protected GoogleAuthorizationCodeFlow getFlow() throws IOException {
+	public GoogleAuthorizationCodeFlow getFlow() throws IOException {
 		InputStream in = GoogleService.class.getResourceAsStream(configuration.getCredentialsFilePath());
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JACKSON_FACTORY,
         		new InputStreamReader(new FileInputStream(configuration.getCredentialsFilePath()), Charset.forName("UTF-8")));

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.ynov.dap.dap.google.GMailService;
 import fr.ynov.dap.dap.model.GmailModel;
+import fr.ynov.dap.dap.service.GMailService;
 
 /**
  * The Class GmailController.
@@ -31,10 +31,8 @@ public class GmailController {
 	 * @throws GeneralSecurityException the general security exception
 	 */
 	@RequestMapping(value="/inbox")
-	public GmailModel getMailInboxUnRead(@RequestParam("userKey") final String userId) throws
+	public int getMailInboxUnRead(@RequestParam("userKey") final String userKey) throws
 	IOException, GeneralSecurityException {
-		
-		return gmailService.getNbMailInbox(userId);
-		
+		return gmailService.getNbMailInboxAllAccount(userKey);
 	}
 }

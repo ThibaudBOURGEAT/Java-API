@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.http.GenericUrl;
 
-import fr.ynov.dap.dap.google.GoogleAccount;
+import fr.ynov.dap.dap.data.AppUser;
+import fr.ynov.dap.dap.data.GoogleAccount;
+import fr.ynov.dap.dap.repository.GoogleAccountRepository;
+import fr.ynov.dap.dap.service.GoogleAccountService;
 
 
 /**
@@ -27,9 +30,12 @@ public class GoogleAccountController {
 
 	/** The google account. */
 	@Autowired
-	private GoogleAccount googleAccount;
+	private GoogleAccountService googleAccountService;
 	
-	private final Logger LOG = LogManager.getLogger(GoogleAccount.class);
+	@Autowired
+	private GoogleAccountRepository googleAccountRepo;
+	
+	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	
 	/**
 	 * O auth callback.
@@ -44,10 +50,11 @@ public class GoogleAccountController {
 	public String oAuthCallback(@RequestParam final String code, final HttpServletRequest request,
             final HttpSession session) throws ServletException {
 		final String decodedCode = extracCode(request);
-		final String redirectUri = buildRedirectUri(request, googleAccount.getConfiguration().getRedirectUrl());
-		final String userId = getUserid(session);
+		final String redirectUri = buildRedirectUri(request, googleAccountService.getConfiguration().getRedirectUrl());
+		final String accountName = getUserAccount(session);
+		final String userKey = getUserKey(session);
 		
-		return googleAccount.oAuthCallback(decodedCode, redirectUri, userId);
+		return googleAccountService.oAuthCallback(decodedCode, redirectUri, accountName, userKey);
 	}
 	
 	/**
@@ -58,11 +65,14 @@ public class GoogleAccountController {
 	 * @param session the session
 	 * @return the string
 	 */
-	@RequestMapping("/account/add/{userId}")
-	public String addAccount(@PathVariable final String userId, final HttpServletRequest request,
+	@RequestMapping("/account/add/{accountName}")
+	public String addAccount(@PathVariable("accountName") final String accountName,
+			@RequestParam("userKey") final String userKey,
+			final HttpServletRequest request,
             final HttpSession session) {
-		final String redirectUri = buildRedirectUri(request, googleAccount.getConfiguration().getRedirectUrl());
-		return googleAccount.addAccount(userId, redirectUri, session);
+		
+		final String redirectUri = buildRedirectUri(request, googleAccountService.getConfiguration().getRedirectUrl());
+		return googleAccountService.addAccount(accountName, userKey, redirectUri, session);
 	}
 	
 	/**
@@ -72,17 +82,30 @@ public class GoogleAccountController {
 	 * @return the userid
 	 * @throws ServletException the servlet exception
 	 */
-	private String getUserid(final HttpSession session) throws ServletException {
-		String userId = null;
-		if (null != session && null != session.getAttribute("userId")) {
-			userId = (String) session.getAttribute("userId");
+	private String getUserAccount(final HttpSession session) throws ServletException {
+		String accountName = null;
+		if (null != session && null != session.getAttribute("accountName")) {
+			accountName = (String) session.getAttribute("accountName");
 		}
 
-		if (null == userId) {
+		if (null == accountName) {
+			LOG.error("accountName in Session is NULL in Callback");
+			throw new ServletException("Error when trying to add Google acocunt : userId is NULL is User Session");
+		}
+		return accountName;
+	}
+	
+	private String getUserKey(final HttpSession session) throws ServletException {
+		String userKey = null;
+		if (null != session && null != session.getAttribute("userKey")) {
+			userKey = (String) session.getAttribute("userKey");
+		}
+
+		if (null == userKey) {
 			LOG.error("userId in Session is NULL in Callback");
 			throw new ServletException("Error when trying to add Google acocunt : userId is NULL is User Session");
 		}
-		return userId;
+		return userKey;
 	}
 	
 	/**

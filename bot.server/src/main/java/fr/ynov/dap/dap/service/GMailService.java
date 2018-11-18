@@ -1,15 +1,19 @@
-package fr.ynov.dap.dap.google;
+package fr.ynov.dap.dap.service;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Label;
 
+import fr.ynov.dap.dap.data.AppUser;
+import fr.ynov.dap.dap.data.GoogleAccount;
 import fr.ynov.dap.dap.model.GmailModel;
+import fr.ynov.dap.dap.repository.AppUserRepository;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +21,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GMailService extends GoogleService {
+	
+	@Autowired
+    private AppUserRepository appUserRepo;
 
 	/**
 	 * Instantiates a new g mail service.
@@ -28,15 +35,15 @@ public class GMailService extends GoogleService {
 	/**
 	 * Gets the service.
 	 *
-	 * @param userId the user id
+	 * @param accountName the user id
 	 * @return the service
 	 * @throws GeneralSecurityException the general security exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private Gmail getService(String userId) throws GeneralSecurityException, IOException {
+	private Gmail getService(String accountName) throws GeneralSecurityException, IOException {
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		Gmail service = new Gmail.Builder(HTTP_TRANSPORT, JACKSON_FACTORY,
-				getCredentials(HTTP_TRANSPORT, userId)).setApplicationName(configuration.getApplicationName()).build();
+				getCredentials(HTTP_TRANSPORT, accountName)).setApplicationName(configuration.getApplicationName()).build();
 		return service;
 	}
 
@@ -49,12 +56,22 @@ public class GMailService extends GoogleService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws GeneralSecurityException the general security exception
 	 */
-	public GmailModel  getNbMailInbox(String userId) throws IOException, GeneralSecurityException {
-		Gmail service = getService(userId);
-		String user = "me";
-		Label listResponse = service.users().labels().get(user, "INBOX").execute();
-		int MailUnReadCount = listResponse.getMessagesUnread();
-		GmailModel gmailRes = new GmailModel(MailUnReadCount);
-		return gmailRes;
+	public int getNbMailInbox(final String accountName) throws IOException, GeneralSecurityException {
+		Gmail service = getService(accountName);
+		Label listResponse = service.users().labels().get("me", "INBOX").execute();
+		return listResponse.getMessagesUnread();
+	}
+	
+	public int getNbMailInboxAllAccount(final String userKey) throws IOException, GeneralSecurityException {
+		AppUser user = appUserRepo.findByName(userKey);
+		int nbUnreadMail = 0;
+		
+		if(user != null) {
+			for (GoogleAccount currentData : user.getAccounts()) {
+	            nbUnreadMail += getNbMailInbox(currentData.getName());
+	        }
+		}
+		
+		return nbUnreadMail;
 	}
 }

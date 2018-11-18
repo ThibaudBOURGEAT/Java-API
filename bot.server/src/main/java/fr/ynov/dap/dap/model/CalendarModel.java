@@ -1,5 +1,7 @@
 package fr.ynov.dap.dap.model;
 
+import java.util.Date;
+
 
 /**
  * The Class CalendarResponse.
@@ -7,10 +9,10 @@ package fr.ynov.dap.dap.model;
 public class CalendarModel {
 	
 	/** The start. */
-	private String start;
+	private Date start;
 	
 	/** The end. */
-	private String end;
+	private Date end;
 	
 	/** The status. */
 	private String status;
@@ -26,7 +28,7 @@ public class CalendarModel {
 	 * @param status the status
 	 * @param summary the summary
 	 */
-	public CalendarModel(String start, String end, String status, String summary) {
+	public CalendarModel(Date start, Date end, String status, String summary) {
 		this.start = start;
 		this.end = end;
 		this.status = status; 
@@ -56,7 +58,7 @@ public class CalendarModel {
 	 *
 	 * @return the start
 	 */
-	public String getStart() {
+	public Date getStart() {
 		return start;
 	}
 
@@ -65,7 +67,7 @@ public class CalendarModel {
 	 *
 	 * @return the end
 	 */
-	public String getEnd() {
+	public Date getEnd() {
 		return end;
 	}
 
@@ -83,7 +85,7 @@ public class CalendarModel {
 	 *
 	 * @param start the new start
 	 */
-	public void setStart(String start) {
+	public void setStart(Date start) {
 		this.start = start;
 	}
 
@@ -92,7 +94,7 @@ public class CalendarModel {
 	 *
 	 * @param end the new end
 	 */
-	public void setEnd(String end) {
+	public void setEnd(Date end) {
 		this.end = end;
 	}
 

@@ -1,4 +1,4 @@
-package fr.ynov.dap.dap.google;
+package fr.ynov.dap.dap.service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -27,28 +27,28 @@ public class ContactService extends GoogleService {
 	/**
 	 * Gets the service.
 	 *
-	 * @param userId the user id
+	 * @param accountName the user id
 	 * @return the service
 	 * @throws GeneralSecurityException the general security exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private PeopleService getService(String userId) throws GeneralSecurityException, IOException {
+	private PeopleService getService(String accountName) throws GeneralSecurityException, IOException {
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		PeopleService service = new PeopleService.Builder(HTTP_TRANSPORT, JACKSON_FACTORY,
-				getCredentials(HTTP_TRANSPORT, userId)).setApplicationName(configuration.getApplicationName()).build();
+				getCredentials(HTTP_TRANSPORT, accountName)).setApplicationName(configuration.getApplicationName()).build();
 		return service;
 	}
 	
 	/**
 	 * Gets the contacts.
 	 *
-	 * @param userId the user id
+	 * @param accountName the user id
 	 * @return the contacts
 	 * @throws GeneralSecurityException the general security exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public int getNbContact(String userId) throws GeneralSecurityException, IOException {
-		PeopleService service = getService(userId);     
+	public int getNbContact(String accountName) throws GeneralSecurityException, IOException {
+		PeopleService service = getService(accountName);     
 		ListConnectionsResponse response = service.people().connections()
                 .list("people/me")
                 .setPersonFields("names,emailAddresses")
