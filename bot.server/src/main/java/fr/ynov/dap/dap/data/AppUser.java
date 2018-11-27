@@ -31,15 +31,28 @@ public class AppUser {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<GoogleAccount> googleAccount;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<OutlookAccount> microsoftAccount;
+	
 	
 	public void addGoogleAccount(GoogleAccount account){
 	    account.setOwner(this);
-	    this.getAccounts().add(account);
+	    this.getGoogleAccounts().add(account);
 	}
 
 
-	public List<GoogleAccount> getAccounts() {
+	public List<GoogleAccount> getGoogleAccounts() {
 		return googleAccount;
 	}
 
+	public void addMicrosoftAccount(OutlookAccount account){
+	    account.setOwner(this);
+	    this.getOutlookAccount().add(account);
+	}
+
+	public List<OutlookAccount> getOutlookAccount() {
+		return microsoftAccount;
+	}
+
+	
 }

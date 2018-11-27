@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * The Class CalendarResponse.
  */
-public class CalendarModel {
+public class GoogleCalendarResponse {
 	
 	/** The start. */
 	private Date start;
@@ -28,7 +28,7 @@ public class CalendarModel {
 	 * @param status the status
 	 * @param summary the summary
 	 */
-	public CalendarModel(Date start, Date end, String status, String summary) {
+	public GoogleCalendarResponse(Date start, Date end, String status, String summary) {
 		this.start = start;
 		this.end = end;
 		this.status = status; 

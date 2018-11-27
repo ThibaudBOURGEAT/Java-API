@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.util.store.DataStore;
 
-import fr.ynov.dap.dap.service.GMailService;
+import fr.ynov.dap.dap.google.GMailService;
 
 @Controller
 public class Welcome {
@@ -25,7 +25,7 @@ public class Welcome {
 	
 	
 
-	@RequestMapping("/{userId}")
+	@RequestMapping("/welcome/{userId}")
 	public String welcome(ModelMap model, @PathVariable final String userId)
 			throws IOException, GeneralSecurityException {
 		model.addAttribute("nbEmails", gmailService.getNbMailInbox(userId));
@@ -33,7 +33,7 @@ public class Welcome {
 	}
 
 	@RequestMapping("/data")
-	public String returnDataStore(final ModelMap model) {
+	public String getDataStore(final ModelMap model) {
 		try {
 			Map<String, Object> dataStore = new HashMap<String, Object>();
 			DataStore<StoredCredential> credentials = gmailService.getFlow().getCredentialDataStore();

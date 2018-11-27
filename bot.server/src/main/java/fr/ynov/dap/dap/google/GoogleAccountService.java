@@ -1,4 +1,4 @@
-package fr.ynov.dap.dap.service;
+package fr.ynov.dap.dap.google;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -70,7 +70,7 @@ public class GoogleAccountService extends GoogleService {
 	 * googleAccount.setName(accountName); googleAccountRepo.save(googleAccount);
 	 */
 
-	public String oAuthCallback(String decodedCode, String redirectUri, String accountName, String userKey)
+	public String oAuthCallback(String decodedCode, String redirectUri, final String accountName, final String userKey)
 			throws ServletException {
 		try {
 			final GoogleAuthorizationCodeFlow flow = super.getFlow();
@@ -99,7 +99,7 @@ public class GoogleAccountService extends GoogleService {
 			throw new ServletException("Error while trying to connect Google Account");
 		}
 
-		return "redirect:/" + accountName;
+		return "redirect:/welcome/" + accountName;
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class GoogleAccountService extends GoogleService {
 	 * @param session the session
 	 * @return the string
 	 */
-	public String addAccount(String accountName, String userKey, String redirectUri, final HttpSession session) {
+	public String addAccount(final String accountName,final String userKey, String redirectUri, final HttpSession session) {
 		String response = "errorOccurs";
 		GoogleAuthorizationCodeFlow flow;
 		Credential credential = null;

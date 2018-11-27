@@ -1,4 +1,4 @@
-package fr.ynov.dap.dap.service;
+package fr.ynov.dap.dap.google;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -7,7 +7,7 @@ import com.google.api.services.gmail.model.Label;
 
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
-import fr.ynov.dap.dap.model.GmailModel;
+import fr.ynov.dap.dap.model.GmailResponse;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
 import java.io.IOException;
@@ -62,12 +62,12 @@ public class GMailService extends GoogleService {
 		return listResponse.getMessagesUnread();
 	}
 	
-	public int getNbMailInboxAllAccount(final String userKey) throws IOException, GeneralSecurityException {
+	public int getNbMailInboxForAllAccount(final String userKey) throws IOException, GeneralSecurityException {
 		AppUser user = appUserRepo.findByName(userKey);
 		int nbUnreadMail = 0;
 		
 		if(user != null) {
-			for (GoogleAccount currentData : user.getAccounts()) {
+			for (GoogleAccount currentData : user.getGoogleAccounts()) {
 	            nbUnreadMail += getNbMailInbox(currentData.getName());
 	        }
 		}

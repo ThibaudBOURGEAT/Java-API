@@ -18,8 +18,8 @@ import com.google.api.client.http.GenericUrl;
 
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
+import fr.ynov.dap.dap.google.GoogleAccountService;
 import fr.ynov.dap.dap.repository.GoogleAccountRepository;
-import fr.ynov.dap.dap.service.GoogleAccountService;
 
 
 /**

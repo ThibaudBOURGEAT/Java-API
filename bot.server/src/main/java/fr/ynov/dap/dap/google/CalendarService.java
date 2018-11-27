@@ -1,4 +1,4 @@
-package fr.ynov.dap.dap.service;
+package fr.ynov.dap.dap.google;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -24,7 +24,7 @@ import fr.ynov.dap.dap.comparator.SortByDate;
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
 import fr.ynov.dap.dap.exeption.NoEventExeption;
-import fr.ynov.dap.dap.model.CalendarModel;
+import fr.ynov.dap.dap.model.GoogleCalendarResponse;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
 
@@ -69,7 +69,7 @@ public class CalendarService extends GoogleService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws GeneralSecurityException the general security exception
 	 */
-	private CalendarModel getNextEvent(String accountName)  throws IOException, GeneralSecurityException {
+	private GoogleCalendarResponse getNextEvent(String accountName)  throws IOException, GeneralSecurityException {
 		Calendar service = getService(accountName);
 		DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list("primary")
@@ -84,7 +84,7 @@ public class CalendarService extends GoogleService {
         	return null;
         }
         
-        CalendarModel calendarRes = new CalendarModel(
+        GoogleCalendarResponse calendarRes = new GoogleCalendarResponse(
         		new Date(items.get(0).getStart().getDateTime().getValue()),
         		new Date(items.get(0).getEnd().getDateTime().getValue()),
         		items.get(0).getStatus(),
@@ -93,14 +93,14 @@ public class CalendarService extends GoogleService {
         return calendarRes;
 	}
 	
-	public CalendarModel getNextEventAllAccount(final String userKey) throws IOException, GeneralSecurityException, NoEventExeption {
+	public GoogleCalendarResponse getNextEventAllAccount(final String userKey) throws IOException, GeneralSecurityException, NoEventExeption {
 		LOG.info("getNextEventAllAccount");
 		AppUser user = appUserRepo.findByName(userKey);
-		ArrayList<CalendarModel> events = new ArrayList<>();
+		ArrayList<GoogleCalendarResponse> events = new ArrayList<>();
 		
 		if(user != null) {
-			for (GoogleAccount currentData : user.getAccounts()) {
-				CalendarModel eventTemp = getNextEvent(currentData.getName());
+			for (GoogleAccount currentData : user.getGoogleAccounts()) {
+				GoogleCalendarResponse eventTemp = getNextEvent(currentData.getName());
 				if(eventTemp != null) {
 					events.add(eventTemp);
 				}

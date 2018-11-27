@@ -7,6 +7,6 @@ import fr.ynov.dap.dap.data.GoogleAccount;
 
 public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, Integer> {
 
-
+	GoogleAccount findByName(String name);
 	
 }

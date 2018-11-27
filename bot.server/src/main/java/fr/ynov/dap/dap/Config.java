@@ -1,10 +1,17 @@
 package fr.ynov.dap.dap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 /**
  * The Class Config.
  */
+@PropertySource("classpath:config.properties")
 public class Config {
+	
+	@Autowired
+	private Environment env;
 	
 	/** The client secret dir. */
 	private String clientSecretDir;
@@ -18,8 +25,13 @@ public class Config {
 	/** The credentials file path. */
 	private String credentialsFilePath;
 	
-	private String redirectUrl;
+	private String redirectUrlGoogle;
 	
+	private String appId;
+	
+	private String appPassword;
+	
+	private String redirectUrlMicrosoft;
 	
 	
 	/**
@@ -33,7 +45,10 @@ public class Config {
 		this.applicationName = "Hoc Dap";
 		this.tokensDirectoryPath = "tokens";
 		this.credentialsFilePath = "C:/google/credentials.json";
-		this.redirectUrl = "/oAuth2Callback";
+		this.redirectUrlGoogle = "/oAuth2Callback";
+		this.appId = "4e938524-eb98-4082-b295-5383fb8ff52c";
+		this.appPassword = "fhCWE12~kuogzTZWH151^%$";
+		this.redirectUrlMicrosoft = "http://localhost:8080/authorize";
 	}
 
 	public void setClientSecretDir(String clientSecretDir) {
@@ -50,6 +65,30 @@ public class Config {
 
 	public void setCredentialsFilePath(String credentialsFilePath) {
 		this.credentialsFilePath = credentialsFilePath;
+	}
+	
+	public String getAppId() {
+		return appId;
+	}
+
+	public String getAppPassword() {
+		return appPassword;
+	}
+
+	public String getRedirectUrlMicrosoft() {
+		return redirectUrlMicrosoft;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public void setAppPassword(String appPassword) {
+		this.appPassword = appPassword;
+	}
+
+	public void setRedirectUrlMicrosoft(String redirectUrlMicrosoft) {
+		this.redirectUrlMicrosoft = redirectUrlMicrosoft;
 	}
 
 	/**
@@ -94,11 +133,11 @@ public class Config {
 	 * @return the o auth 2 callback url
 	 */
 	public String getRedirectUrl() { 
-		return redirectUrl;
+		return redirectUrlGoogle;
 	}
 
 	public void setRedirectUrl(String redirectUrl) {
-		this.redirectUrl = redirectUrl;
+		this.redirectUrlGoogle = redirectUrl;
 	}
 	
 }

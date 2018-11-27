@@ -1,4 +1,4 @@
-package fr.ynov.dap.dap.service;
+package fr.ynov.dap.dap.google;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
