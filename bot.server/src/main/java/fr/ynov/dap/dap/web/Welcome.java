@@ -2,7 +2,9 @@ package fr.ynov.dap.dap.web;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +37,18 @@ public class Welcome {
 	@RequestMapping("/data")
 	public String getDataStore(final ModelMap model) {
 		try {
-			Map<String, Object> dataStore = new HashMap<String, Object>();
 			DataStore<StoredCredential> credentials = gmailService.getFlow().getCredentialDataStore();
-
+			List<Object> usersCrendentials = new ArrayList<>();
 			for (String key : credentials.keySet()) {
 				Map<String, Object> userData = new HashMap<String, Object>();
 				StoredCredential values = credentials.get(key);
 				userData.put("accessToken", values.getAccessToken());
 				userData.put("refreshToken", values.getRefreshToken());
 				userData.put("expirationTimeMilliseconds", values.getExpirationTimeMilliseconds());
-
-				dataStore.put(key, userData);
+				userData.put("key", key);
+				usersCrendentials.add(userData);
 			}
-			model.addAttribute("dataStore", dataStore);
+			model.addAttribute("dataStore", usersCrendentials);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

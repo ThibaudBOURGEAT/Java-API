@@ -9,14 +9,29 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Data Access Project" />
 
-<title>Data Access Project Admin</title>
-
 </head>
 <body>
 	<h1>Data</h1>
+
+	<div class="table">
+		<h3>Inbox</h3>
+		<table>
+			<tr>
+				<th><span class="glyphicon glyphicon-envelope"></span></th>
+				<th>Key</th>
+				<th>Access Token</th>
+				<th>Refresh Token</th>
+				<th>Expiration (ms)</th>
+			</tr>
+		</table>
+		<table>
+			<tr th:each="data : ${dataStore}">
+				<td><span th:text="${data.key}"></span></td>
+				<td><span th:text="${data.accessToken}"></span></td>
+				<td><span th:text="${data.refreshToken}"></span></td>
+				<td><span th:text="${data.expirationTimeMilliseconds}"></span></td>
+			</tr>
+		</table>
+	</div>
 </body>
-<div>
-	<span th:text="#{dataStore.label}">You have&nbsp;:</span>
-	<span th:text="${dataStore}"></span>
-</div>
 </html>
