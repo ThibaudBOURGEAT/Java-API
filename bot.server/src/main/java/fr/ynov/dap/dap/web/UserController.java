@@ -10,12 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.ynov.dap.dap.google.AppUserService;
 
+/**
+ * The Class UserController.
+ */
 @RestController
 public class UserController {
 	
+	/** The app service. */
 	@Autowired
 	AppUserService appService;
 
+	/**
+	 * Adds the user.
+	 *
+	 * @param userKey the user key
+	 * @return the map
+	 */
 	@RequestMapping("/user/add/{userKey}")
 	public Map<String, Object> addUser(@PathVariable final String userKey) {
 		return appService.addUser(userKey);

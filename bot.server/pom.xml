@@ -184,7 +184,6 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
-					<!-- TODO bot by Djer Il n'y a pas de fichier a cette endroit ! -->
 					<configLocation>checkstyle/dap_checkstyle_checks.xml</configLocation>
 				</configuration>
 				<reportSets>
@@ -195,7 +194,6 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			<!-- TODO bot by Djer PMD ? -->
 		</plugins>
 
 	</reporting>

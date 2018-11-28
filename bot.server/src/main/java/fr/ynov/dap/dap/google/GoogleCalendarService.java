@@ -23,10 +23,8 @@ import com.google.api.services.calendar.model.Events;
 import fr.ynov.dap.dap.comparator.SortByDate;
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
-import fr.ynov.dap.dap.exeption.NoEventExeption;
 import fr.ynov.dap.dap.model.GoogleCalendarResponse;
 import fr.ynov.dap.dap.repository.AppUserRepository;
-
 
 /**
  * The Class CalendarService.
@@ -34,9 +32,11 @@ import fr.ynov.dap.dap.repository.AppUserRepository;
 @Service
 public class GoogleCalendarService extends GoogleService { 
 	
+	/** The app user repo. */
 	@Autowired
     private AppUserRepository appUserRepo;
 	
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	
 	/**
@@ -93,7 +93,15 @@ public class GoogleCalendarService extends GoogleService {
         return calendarRes;
 	}
 	
-	public GoogleCalendarResponse getNextEventForAllAccounts(final String userKey) throws IOException, GeneralSecurityException, NoEventExeption {
+	/**
+	 * Gets the next event for all accounts.
+	 *
+	 * @param userKey the user key
+	 * @return the next event for all accounts
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws GeneralSecurityException the general security exception
+	 */
+	public GoogleCalendarResponse getNextEventForAllAccounts(final String userKey) throws IOException, GeneralSecurityException {
 		LOG.info("getNextEventAllAccount");
 		AppUser user = appUserRepo.findByName(userKey);
 		ArrayList<GoogleCalendarResponse> events = new ArrayList<>();

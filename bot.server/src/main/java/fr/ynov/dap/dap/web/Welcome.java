@@ -21,6 +21,10 @@ import fr.ynov.dap.dap.data.OutlookAccount;
 import fr.ynov.dap.dap.google.GoogleMailService;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
+
+/**
+ * The Class Welcome.
+ */
 @Controller
 public class Welcome {
 
@@ -28,9 +32,19 @@ public class Welcome {
 	@Autowired
 	private GoogleMailService gmailService;
 	
+	/** The app user repo. */
 	@Autowired
 	private AppUserRepository appUserRepo;
 
+	/**
+	 * Welcome.
+	 *
+	 * @param model the model
+	 * @param userId the user id
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws GeneralSecurityException the general security exception
+	 */
 	@RequestMapping("/welcome/{userId}")
 	public String welcome(ModelMap model, @PathVariable final String userId)
 			throws IOException, GeneralSecurityException {
@@ -38,7 +52,13 @@ public class Welcome {
 		return "welcome";
 	}
 
-	@RequestMapping("/data")
+	/**
+	 * Gets the data store.
+	 *
+	 * @param model the model
+	 * @return the data store
+	 */
+	@RequestMapping("/admin")
 	public String getDataStore(final ModelMap model) {
 		try {
 			DataStore<StoredCredential> credentials = gmailService.getFlow().getCredentialDataStore();

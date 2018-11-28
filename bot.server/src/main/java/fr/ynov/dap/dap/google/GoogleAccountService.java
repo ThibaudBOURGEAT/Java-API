@@ -1,23 +1,17 @@
 package fr.ynov.dap.dap.google;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
-import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.http.GenericUrl;
 
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
@@ -42,9 +36,11 @@ public class GoogleAccountService extends GoogleService {
 	/** The sensible data last char. */
 	private final int SENSIBLE_DATA_LAST_CHAR = 1;
 
+	/** The google account repo. */
 	@Autowired
 	private GoogleAccountRepository googleAccountRepo;
 
+	/** The app user repo. */
 	@Autowired
 	private AppUserRepository appUserRepo;
 
@@ -58,9 +54,10 @@ public class GoogleAccountService extends GoogleService {
 	/**
 	 * O auth callback.
 	 *
-	 * @param code    the code
-	 * @param request the request
-	 * @param session the session
+	 * @param decodedCode the decoded code
+	 * @param redirectUri the redirect uri
+	 * @param accountName the account name
+	 * @param userKey the user key
 	 * @return the string
 	 * @throws ServletException the servlet exception
 	 */
@@ -105,8 +102,9 @@ public class GoogleAccountService extends GoogleService {
 	/**
 	 * Adds the account.
 	 *
-	 * @param userId  the user id
-	 * @param request the request
+	 * @param accountName the account name
+	 * @param userKey the user key
+	 * @param redirectUri the redirect uri
 	 * @param session the session
 	 * @return the string
 	 */

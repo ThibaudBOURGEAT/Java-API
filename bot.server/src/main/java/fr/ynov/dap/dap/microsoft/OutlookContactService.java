@@ -13,17 +13,29 @@ import fr.ynov.dap.dap.data.OutlookAccount;
 import fr.ynov.dap.dap.data.Token;
 import fr.ynov.dap.dap.google.GoogleAccountService;
 import fr.ynov.dap.dap.model.OutlookContact;
-import fr.ynov.dap.dap.model.PagedResult;
+import fr.ynov.dap.dap.model.OutlookPagedResult;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
+/**
+ * The Class OutlookContactService.
+ */
 @Service
 public class OutlookContactService {
 	
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 
+	/** The app user repo. */
 	@Autowired
 	private AppUserRepository appUserRepo;
 	
+	/**
+	 * Gets the nb contacts.
+	 *
+	 * @param account the account
+	 * @return the nb contacts
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private Integer getNbContacts(final OutlookAccount account) throws IOException {
 
         if (account == null) {
@@ -38,7 +50,7 @@ public class OutlookContactService {
 
         OutlookService outlookService = OutlookServiceBuilder
         		.getOutlookService(tokens.getAccessToken());
-        PagedResult<OutlookContact> contacts = outlookService
+        OutlookPagedResult<OutlookContact> contacts = outlookService
         		.getContacts(sort, properties)
         		.execute()
         		.body();
@@ -53,6 +65,13 @@ public class OutlookContactService {
     }
 
   
+    /**
+     * Gets the nb contacts for all accounts.
+     *
+     * @param userKey the user key
+     * @return the nb contacts for all accounts
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public final Integer getNbContactsForAllAccounts(final String userKey) throws IOException {
     	
     	AppUser appUser = appUserRepo.findByName(userKey);

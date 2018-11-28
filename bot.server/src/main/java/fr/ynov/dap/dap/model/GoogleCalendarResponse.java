@@ -2,7 +2,6 @@ package fr.ynov.dap.dap.model;
 
 import java.util.Date;
 
-
 /**
  * The Class CalendarResponse.
  */

@@ -12,8 +12,17 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+/**
+ * The Class OutlookServiceBuilder.
+ */
 public class OutlookServiceBuilder {
 
+	/**
+	 * Gets the outlook service.
+	 *
+	 * @param accessToken the access token
+	 * @return the outlook service
+	 */
 	public static OutlookService getOutlookService(String accessToken) {
 		// Create a request interceptor to add headers that belong on
 		// every request

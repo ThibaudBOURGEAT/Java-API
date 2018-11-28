@@ -6,18 +6,13 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
 /**
  * The Class Config.
  */
 @PropertySource("classpath:config.properties")
 public class Config {
-
-	@Autowired
-	private Environment env;
 
 	/** The client secret dir. */
 	private String clientSecretDir;
@@ -31,13 +26,17 @@ public class Config {
 	/** The credentials file path. */
 	private String credentialsFilePath;
 
+	/** The redirect url google. */
 	private String redirectUrlGoogle;
 
+	/** The Constant CONFIG_FILE_PATH. */
 	private static final String CONFIG_FILE_PATH = 
 			System.getProperty("user.home") + "\\config.properties";
 
 	/**
 	 * Instantiates a new config.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	/**
 	 * @throws IOException 
@@ -70,18 +69,38 @@ public class Config {
 		}
 	}
 
+	/**
+	 * Sets the client secret dir.
+	 *
+	 * @param clientSecretDir the new client secret dir
+	 */
 	public void setClientSecretDir(String clientSecretDir) {
 		this.clientSecretDir = clientSecretDir;
 	}
 
+	/**
+	 * Sets the application name.
+	 *
+	 * @param applicationName the new application name
+	 */
 	public void setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
 	}
 
+	/**
+	 * Sets the tokens directory path.
+	 *
+	 * @param tokensDirectoryPath the new tokens directory path
+	 */
 	public void setTokensDirectoryPath(String tokensDirectoryPath) {
 		this.tokensDirectoryPath = tokensDirectoryPath;
 	}
 
+	/**
+	 * Sets the credentials file path.
+	 *
+	 * @param credentialsFilePath the new credentials file path
+	 */
 	public void setCredentialsFilePath(String credentialsFilePath) {
 		this.credentialsFilePath = credentialsFilePath;
 	}
@@ -131,6 +150,11 @@ public class Config {
 		return redirectUrlGoogle;
 	}
 
+	/**
+	 * Sets the redirect url.
+	 *
+	 * @param redirectUrl the new redirect url
+	 */
 	public void setRedirectUrl(String redirectUrl) {
 		this.redirectUrlGoogle = redirectUrl;
 	}

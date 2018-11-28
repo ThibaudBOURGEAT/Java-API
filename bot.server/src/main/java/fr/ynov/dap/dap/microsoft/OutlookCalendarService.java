@@ -15,17 +15,29 @@ import fr.ynov.dap.dap.data.OutlookAccount;
 import fr.ynov.dap.dap.data.Token;
 import fr.ynov.dap.dap.google.GoogleAccountService;
 import fr.ynov.dap.dap.model.OutlookEvent;
-import fr.ynov.dap.dap.model.PagedResult;
+import fr.ynov.dap.dap.model.OutlookPagedResult;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
+/**
+ * The Class OutlookCalendarService.
+ */
 @Service
 public class OutlookCalendarService {
 
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 
+	/** The app user repo. */
 	@Autowired
 	private AppUserRepository appUserRepo;
 
+	/**
+	 * Gets the next event.
+	 *
+	 * @param account the account
+	 * @return the next event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private OutlookEvent getNextEvent(final OutlookAccount account) throws IOException {
 
 		if (account == null) {
@@ -42,7 +54,7 @@ public class OutlookCalendarService {
 		OutlookService outlookService = OutlookServiceBuilder
 				.getOutlookService(tokens.getAccessToken());
 
-		PagedResult<OutlookEvent> events = outlookService
+		OutlookPagedResult<OutlookEvent> events = outlookService
 				.getEvents(sort, properties, maxResults)
 				.execute()
 				.body();
@@ -54,6 +66,12 @@ public class OutlookCalendarService {
 		return nextEvent;
 	}
 
+	/**
+	 * Gets the next event for all accounts.
+	 *
+	 * @param userKey the user key
+	 * @return the next event for all accounts
+	 */
 	public OutlookEvent getNextEventForAllAccounts(String userKey) {
 		AppUser appUser = appUserRepo.findByName(userKey);
 		List<OutlookEvent> events = new ArrayList<>();

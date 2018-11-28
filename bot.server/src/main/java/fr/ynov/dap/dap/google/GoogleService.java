@@ -2,14 +2,11 @@ package fr.ynov.dap.dap.google;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -24,7 +21,6 @@ import com.google.api.services.people.v1.PeopleServiceScopes;
 
 import fr.ynov.dap.dap.Config;
 
-
 /**
  * The Class GoogleService.
  */
@@ -34,20 +30,26 @@ public class GoogleService {
 	@Autowired
 	protected Config configuration;
 	
-	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
-	
 	/** The json factory. */ 
 	protected static final JacksonFactory JACKSON_FACTORY = JacksonFactory.getDefaultInstance();
 	
 	/** The scopes. */
 	protected final List<String> scopes = new ArrayList<String>();
 	
+	/**
+	 * Instantiates a new google service.
+	 */
 	public GoogleService() {
 		this.scopes.add(CalendarScopes.CALENDAR_READONLY);
 		this.scopes.add(GmailScopes.GMAIL_LABELS);
 		this.scopes.add(PeopleServiceScopes.CONTACTS_READONLY);
 	}
 
+	/**
+	 * Gets the scopes.
+	 *
+	 * @return the scopes
+	 */
 	public List<String> getScopes() {
 		return scopes;
 	}
@@ -72,7 +74,6 @@ public class GoogleService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public GoogleAuthorizationCodeFlow getFlow() throws IOException {
-		InputStream in = GoogleService.class.getResourceAsStream(configuration.getCredentialsFilePath());
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JACKSON_FACTORY,
         		new InputStreamReader(new FileInputStream(configuration.getCredentialsFilePath()), Charset.forName("UTF-8")));
 		return new GoogleAuthorizationCodeFlow.Builder(

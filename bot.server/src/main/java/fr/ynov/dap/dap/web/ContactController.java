@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.ynov.dap.dap.google.GoogleContactService;
 import fr.ynov.dap.dap.microsoft.OutlookContactService;
+
 /**
  * The Class ContactController.
  */
@@ -23,6 +24,7 @@ public class ContactController {
 	@Autowired
 	private GoogleContactService contactService;
 	
+	/** The outlook contact service. */
 	@Autowired
 	private OutlookContactService outlookContactService;
 	
@@ -34,7 +36,7 @@ public class ContactController {
 	 * @throws GeneralSecurityException the general security exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	@RequestMapping("/getContacts")
+	@RequestMapping("/getNbContacts")
 	public Map<String, Integer> getContacts(@RequestParam("userKey") final String userId) throws GeneralSecurityException,
 	IOException {
 		Map<String, Integer> response = new HashMap<>();

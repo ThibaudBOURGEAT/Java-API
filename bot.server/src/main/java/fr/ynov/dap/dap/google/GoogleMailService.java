@@ -7,7 +7,6 @@ import com.google.api.services.gmail.model.Label;
 
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
-import fr.ynov.dap.dap.model.GmailResponse;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
 import java.io.IOException;
@@ -24,9 +23,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoogleMailService extends GoogleService {
 	
+	/** The app user repo. */
 	@Autowired
     private AppUserRepository appUserRepo;
 	
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 
 	/**
@@ -55,7 +56,7 @@ public class GoogleMailService extends GoogleService {
 	/**
 	 * Gets the nb mail inbox.
 	 *
-	 * @param userId the user id
+	 * @param accountName the account name
 	 * @return the nb mail inbox
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws GeneralSecurityException the general security exception
@@ -66,6 +67,14 @@ public class GoogleMailService extends GoogleService {
 		return listResponse.getMessagesUnread();
 	}
 	
+	/**
+	 * Gets the nb mail inbox for all account.
+	 *
+	 * @param userKey the user key
+	 * @return the nb mail inbox for all account
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws GeneralSecurityException the general security exception
+	 */
 	public int getNbMailInboxForAllAccount(final String userKey) throws IOException, GeneralSecurityException {
 		AppUser user = appUserRepo.findByName(userKey);
 		int nbUnreadMail = 0;

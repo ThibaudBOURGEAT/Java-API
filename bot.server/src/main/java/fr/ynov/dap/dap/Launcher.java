@@ -25,7 +25,7 @@ public class Launcher {
 	 * Load conf.
 	 *
 	 * @return the config
-	 * @throws IOException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@Bean
 	public Config loadConf() throws IOException {

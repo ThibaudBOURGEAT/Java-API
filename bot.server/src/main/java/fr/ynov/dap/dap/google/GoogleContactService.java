@@ -17,16 +17,17 @@ import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.GoogleAccount;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
-
 /**
  * The Class ContactService.
  */
 @Service
 public class GoogleContactService extends GoogleService {
 	
+	/** The app user repo. */
 	@Autowired
     private AppUserRepository appUserRepo;
 	
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	/**
 	 * Instantiates a new contact service.
@@ -68,6 +69,14 @@ public class GoogleContactService extends GoogleService {
 		return response.getTotalPeople();
 	}
 	
+	/**
+	 * Gets the nb contacts for all accounts.
+	 *
+	 * @param userKey the user key
+	 * @return the nb contacts for all accounts
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws GeneralSecurityException the general security exception
+	 */
 	public int getNbContactsForAllAccounts(final String userKey) throws IOException, GeneralSecurityException {
 		AppUser user = appUserRepo.findByName(userKey);
 		int nbContacts = 0;

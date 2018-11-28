@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.ynov.dap.dap.google.GoogleMailService;
 import fr.ynov.dap.dap.microsoft.OutlookMailService;
 
-
-
-
 /**
  * The Class GmailController.
  */
@@ -27,13 +24,14 @@ public class MailController {
 	@Autowired
 	private GoogleMailService gmailService;
 	
+	/** The outlook mail service. */
 	@Autowired
 	OutlookMailService outlookMailService;
 
 	/**
 	 * Gets the mail inbox un read.
 	 *
-	 * @param userId the user id
+	 * @param userKey the user key
 	 * @return the mail inbox un read
 	 * @throws IOException              Signals that an I/O exception has occurred.
 	 * @throws GeneralSecurityException the general security exception

@@ -16,24 +16,34 @@ import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.OutlookAccount;
 import fr.ynov.dap.dap.data.Token;
 import fr.ynov.dap.dap.google.GoogleAccountService;
-import fr.ynov.dap.dap.model.MailFolder;
-import fr.ynov.dap.dap.model.Message;
-import fr.ynov.dap.dap.model.PagedResult;
+import fr.ynov.dap.dap.model.OutlookMailFolder;
+import fr.ynov.dap.dap.model.OutlookMessage;
+import fr.ynov.dap.dap.model.OutlookPagedResult;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 
-
+/**
+ * The Class OutlookMailService.
+ */
 @Service
 public class OutlookMailService {
 
+	/** The app user repo. */
 	@Autowired
 	private AppUserRepository appUserRepo;
 	
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 
+	/**
+	 * Gets the mail for all accounts.
+	 *
+	 * @param userKey the user key
+	 * @return the mail for all accounts
+	 */
 	public Map<String, Object> getMailForAllAccounts(String userKey) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<String> users = new ArrayList<>();
-		List<Message[]> messages = new ArrayList<>();
+		List<OutlookMessage[]> messages = new ArrayList<>();
 		AppUser appUser = appUserRepo.findByName(userKey);
 		String folder = "inbox";
 		String sort = "receivedDateTime DESC";
@@ -45,7 +55,7 @@ public class OutlookMailService {
 	    	OutlookService outlookService = OutlookServiceBuilder
 					.getOutlookService(tokens.getAccessToken());
 	        try {
-	        	PagedResult<Message> emails = outlookService.getMessages(folder, sort, properties, maxResults)
+	        	OutlookPagedResult<OutlookMessage> emails = outlookService.getMessages(folder, sort, properties, maxResults)
 	        			.execute()
 						.body();
 	        	users.add(account.getName());
@@ -60,6 +70,12 @@ public class OutlookMailService {
 	    return response;
 	}
 	
+	/**
+	 * Gets the nb mail inbox for all account.
+	 *
+	 * @param userKey the user key
+	 * @return the nb mail inbox for all account
+	 */
 	public int getNbMailInboxForAllAccount(String userKey) {
 		AppUser appUser = appUserRepo.findByName(userKey);
 		int totalMailInbox = 0;
@@ -68,7 +84,7 @@ public class OutlookMailService {
 	    	OutlookService outlookService = OutlookServiceBuilder
 					.getOutlookService(tokens.getAccessToken());
 			try {
-	            MailFolder mailFolder = outlookService.getMailFolders("INBOX").execute().body();
+	            OutlookMailFolder mailFolder = outlookService.getMailFolders("INBOX").execute().body();
 	            totalMailInbox += mailFolder.getUnreadItemCount();
 	        }catch(IOException e) {
 	            LOG.error("Error when trying get number mail inbox for all accounts.",  e);

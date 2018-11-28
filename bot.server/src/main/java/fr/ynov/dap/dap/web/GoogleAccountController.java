@@ -16,11 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.http.GenericUrl;
 
-import fr.ynov.dap.dap.data.AppUser;
-import fr.ynov.dap.dap.data.GoogleAccount;
 import fr.ynov.dap.dap.google.GoogleAccountService;
-import fr.ynov.dap.dap.repository.GoogleAccountRepository;
-
 
 /**
  * The Class GoogleAccountController.
@@ -32,9 +28,7 @@ public class GoogleAccountController {
 	@Autowired
 	private GoogleAccountService googleAccountService;
 	
-	@Autowired
-	private GoogleAccountRepository googleAccountRepo;
-	
+	/** The log. */
 	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	
 	/**
@@ -60,12 +54,13 @@ public class GoogleAccountController {
 	/**
 	 * Adds the account.
 	 *
-	 * @param userId the user id
+	 * @param accountName the account name
+	 * @param userKey the user key
 	 * @param request the request
 	 * @param session the session
 	 * @return the string
 	 */
-	@RequestMapping("/account/add/{accountName}")
+	@RequestMapping("/account/add/google/{accountName}")
 	public String addAccount(@PathVariable("accountName") final String accountName,
 			@RequestParam("userKey") final String userKey,
 			final HttpServletRequest request,
@@ -95,6 +90,13 @@ public class GoogleAccountController {
 		return accountName;
 	}
 	
+	/**
+	 * Gets the user key.
+	 *
+	 * @param session the session
+	 * @return the user key
+	 * @throws ServletException the servlet exception
+	 */
 	private String getUserKey(final HttpSession session) throws ServletException {
 		String userKey = null;
 		if (null != session && null != session.getAttribute("userKey")) {

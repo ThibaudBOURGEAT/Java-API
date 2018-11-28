@@ -12,19 +12,33 @@ import fr.ynov.dap.dap.auth.AuthHelper;
 import fr.ynov.dap.dap.data.AppUser;
 import fr.ynov.dap.dap.data.OutlookAccount;
 import fr.ynov.dap.dap.data.Token;
-import fr.ynov.dap.dap.model.IdToken;
+import fr.ynov.dap.dap.model.OutlookIdToken;
 import fr.ynov.dap.dap.repository.AppUserRepository;
 import fr.ynov.dap.dap.repository.OutlookAccountRepository;
 
+/**
+ * The Class OutlookAccountService.
+ */
 @Service
 public class OutlookAccountService {
 	
+	/** The outlook account repository. */
 	@Autowired
 	private OutlookAccountRepository outlookAccountRepository;
 
+	/** The app user repo. */
 	@Autowired
 	private AppUserRepository appUserRepo;
 
+	/**
+	 * Adds the account.
+	 *
+	 * @param accountName the account name
+	 * @param userKey the user key
+	 * @param request the request
+	 * @param session the session
+	 * @return the string
+	 */
 	public String addAccount(final String accountName, final String userKey,
 			final HttpServletRequest request,
 			HttpSession session) {
@@ -42,6 +56,17 @@ public class OutlookAccountService {
 		return "redirect:" + loginUrl;
 	}
 
+	/**
+	 * Authorize.
+	 *
+	 * @param session the session
+	 * @param state the state
+	 * @param idToken the id token
+	 * @param code the code
+	 * @param accountName the account name
+	 * @param userKey the user key
+	 * @return the string
+	 */
 	public String authorize(HttpSession session, UUID state, String idToken,
 			String code, String accountName,
 			String userKey) {
@@ -51,7 +76,7 @@ public class OutlookAccountService {
 		// Make sure that the state query parameter returned matches
 		// the expected state
 		if (state.equals(expectedState)) {
-			IdToken idTokenObj = IdToken.parseEncodedToken(idToken, expectedNonce.toString());
+			OutlookIdToken idTokenObj = OutlookIdToken.parseEncodedToken(idToken, expectedNonce.toString());
 			if (idTokenObj != null) {
 				Token token = AuthHelper.getTokenFromAuthCode(code, idTokenObj.getTenantId());
 				

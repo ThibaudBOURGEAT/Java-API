@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.ynov.dap.dap.exeption.NoEventExeption;
 import fr.ynov.dap.dap.google.GoogleCalendarService;
 import fr.ynov.dap.dap.microsoft.OutlookCalendarService;
-import fr.ynov.dap.dap.model.GoogleCalendarResponse;
-
-
 
 /**
  * The Class CalendarController.
@@ -28,6 +24,7 @@ public class CalendarController {
 	@Autowired
 	private GoogleCalendarService calendarService;
 	
+	/** The outlook calendar service. */
 	@Autowired
 	private OutlookCalendarService outlookCalendarService;
 	
@@ -38,11 +35,10 @@ public class CalendarController {
 	 * @return the next event
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws GeneralSecurityException the general security exception
-	 * @throws NoEventExeption 
 	 */
 	@RequestMapping("/nextEvent")
 	public Map<String, Object> getNextEvent(@RequestParam("userKey") final String userId) throws
-	IOException, GeneralSecurityException, NoEventExeption {
+	IOException, GeneralSecurityException {
 		Map<String, Object> events = new HashMap<>();
 		events.put("google", calendarService.getNextEventForAllAccounts(userId));
 		events.put("microsoft", outlookCalendarService.getNextEventForAllAccounts(userId));

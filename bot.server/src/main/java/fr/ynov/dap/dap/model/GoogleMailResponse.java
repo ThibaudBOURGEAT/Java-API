@@ -1,10 +1,9 @@
 package fr.ynov.dap.dap.model;
 
-
 /**
  * The Class GmailResponse.
  */
-public class GmailResponse {
+public class GoogleMailResponse {
 	
 	/** The nb mail un read. */
 	private int nbMailUnRead;
@@ -14,7 +13,7 @@ public class GmailResponse {
 	 *
 	 * @param nbMailUnRead the nb mail un read
 	 */
-	public GmailResponse(int nbMailUnRead) {
+	public GoogleMailResponse(int nbMailUnRead) {
 		this.nbMailUnRead = nbMailUnRead;
 	}
 
