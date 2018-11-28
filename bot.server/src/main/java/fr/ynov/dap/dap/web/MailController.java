@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.ynov.dap.dap.google.GMailService;
+import fr.ynov.dap.dap.google.GoogleMailService;
 import fr.ynov.dap.dap.microsoft.OutlookMailService;
 
 
@@ -25,7 +25,7 @@ public class MailController {
 
 	/** The gmail service. */
 	@Autowired
-	private GMailService gmailService;
+	private GoogleMailService gmailService;
 	
 	@Autowired
 	OutlookMailService outlookMailService;

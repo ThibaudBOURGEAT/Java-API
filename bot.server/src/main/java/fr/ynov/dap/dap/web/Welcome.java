@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.util.store.DataStore;
 
-import fr.ynov.dap.dap.google.GMailService;
+import fr.ynov.dap.dap.google.GoogleMailService;
 
 @Controller
 public class Welcome {
 
 	/** The gmail service. */
 	@Autowired
-	private GMailService gmailService;
+	private GoogleMailService gmailService;
 	
 	
 

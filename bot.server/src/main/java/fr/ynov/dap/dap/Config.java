@@ -1,8 +1,12 @@
 package fr.ynov.dap.dap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+
+import fr.ynov.dap.dap.google.GoogleAccountService;
 
 /**
  * The Class Config.
@@ -33,7 +37,7 @@ public class Config {
 	
 	private String redirectUrlMicrosoft;
 	
-	
+	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	/**
 	 * Instantiates a new config.
 	 */
@@ -44,7 +48,7 @@ public class Config {
 		this.clientSecretDir = "google/client";
 		this.applicationName = "Hoc Dap";
 		this.tokensDirectoryPath = "tokens";
-		this.credentialsFilePath = "C:/google/credentials.json";
+		this.credentialsFilePath = System.getProperty("user.home") + "\\credentials.json";
 		this.redirectUrlGoogle = "/oAuth2Callback";
 		this.appId = "4e938524-eb98-4082-b295-5383fb8ff52c";
 		this.appPassword = "fhCWE12~kuogzTZWH151^%$";

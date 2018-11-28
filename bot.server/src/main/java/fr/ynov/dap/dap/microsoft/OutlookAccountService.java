@@ -73,6 +73,6 @@ public class OutlookAccountService {
 		} else {
 			session.setAttribute("error", "Unexpected state returned from authority.");
 		}
-		return "redirect:/microsoft/mails/" + userKey;
+		return "redirect:/microsoft/mails?userKey=" + userKey;
 	}
 }

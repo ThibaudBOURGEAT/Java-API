@@ -3,6 +3,9 @@ package fr.ynov.dap.dap.google;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -10,17 +13,25 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.people.v1.PeopleService;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 
+import fr.ynov.dap.dap.data.AppUser;
+import fr.ynov.dap.dap.data.GoogleAccount;
+import fr.ynov.dap.dap.repository.AppUserRepository;
+
 
 /**
  * The Class ContactService.
  */
 @Service
-public class ContactService extends GoogleService {
+public class GoogleContactService extends GoogleService {
 	
+	@Autowired
+    private AppUserRepository appUserRepo;
+	
+	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 	/**
 	 * Instantiates a new contact service.
 	 */
-	public ContactService() {
+	public GoogleContactService() {
 		super();
 	}
 	
@@ -47,7 +58,7 @@ public class ContactService extends GoogleService {
 	 * @throws GeneralSecurityException the general security exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public int getNbContact(String accountName) throws GeneralSecurityException, IOException {
+	private int getNbContacts(String accountName) throws GeneralSecurityException, IOException {
 		PeopleService service = getService(accountName);     
 		ListConnectionsResponse response = service.people().connections()
                 .list("people/me")
@@ -55,5 +66,21 @@ public class ContactService extends GoogleService {
                 .execute();
 
 		return response.getTotalPeople();
+	}
+	
+	public int getNbContactsForAllAccounts(final String userKey) throws IOException, GeneralSecurityException {
+		AppUser user = appUserRepo.findByName(userKey);
+		int nbContacts = 0;
+		
+		if(user != null) {
+			for (GoogleAccount currentData : user.getGoogleAccounts()) {
+				nbContacts += getNbContacts(currentData.getName());
+	        }
+			return nbContacts;
+		}
+		
+		LOG.warn("No user found !");
+		
+		return 0;
 	}
 }

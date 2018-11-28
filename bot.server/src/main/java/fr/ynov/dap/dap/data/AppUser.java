@@ -47,10 +47,10 @@ public class AppUser {
 
 	public void addMicrosoftAccount(OutlookAccount account){
 	    account.setOwner(this);
-	    this.getOutlookAccount().add(account);
+	    this.getOutlookAccounts().add(account);
 	}
 
-	public List<OutlookAccount> getOutlookAccount() {
+	public List<OutlookAccount> getOutlookAccounts() {
 		return microsoftAccount;
 	}
 

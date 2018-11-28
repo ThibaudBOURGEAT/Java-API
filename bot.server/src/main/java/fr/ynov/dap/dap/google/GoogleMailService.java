@@ -13,6 +13,8 @@ import fr.ynov.dap.dap.repository.AppUserRepository;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +22,17 @@ import org.springframework.stereotype.Service;
  * The Class GMailService.
  */
 @Service
-public class GMailService extends GoogleService {
+public class GoogleMailService extends GoogleService {
 	
 	@Autowired
     private AppUserRepository appUserRepo;
+	
+	private final Logger LOG = LogManager.getLogger(GoogleAccountService.class);
 
 	/**
 	 * Instantiates a new g mail service.
 	 */
-	public GMailService() {
+	public GoogleMailService() {
 		super();
 	}
 
@@ -70,8 +74,11 @@ public class GMailService extends GoogleService {
 			for (GoogleAccount currentData : user.getGoogleAccounts()) {
 	            nbUnreadMail += getNbMailInbox(currentData.getName());
 	        }
+			return nbUnreadMail;
 		}
 		
-		return nbUnreadMail;
+		LOG.warn("No user found !");
+		
+		return 0;
 	}
 }

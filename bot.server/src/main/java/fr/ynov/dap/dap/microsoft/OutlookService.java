@@ -1,7 +1,7 @@
 package fr.ynov.dap.dap.microsoft;
 
-import fr.ynov.dap.dap.model.Contact;
-import fr.ynov.dap.dap.model.Event;
+import fr.ynov.dap.dap.model.OutlookContact;
+import fr.ynov.dap.dap.model.OutlookEvent;
 import fr.ynov.dap.dap.model.MailFolder;
 import fr.ynov.dap.dap.model.Message;
 import fr.ynov.dap.dap.model.OutlookUser;
@@ -25,17 +25,16 @@ public interface OutlookService {
   );
   
   @GET("/v1.0/me/events")
-  Call<PagedResult<Event>> getEvents(
+  Call<PagedResult<OutlookEvent>> getEvents(
         @Query("$orderby") String orderBy,
         @Query("$select") String select,
         @Query("$top") Integer maxResults
   );
   
   @GET("/v1.0/me/contacts")
-  Call<PagedResult<Contact>> getContacts(
+  Call<PagedResult<OutlookContact>> getContacts(
       @Query("$orderby") String orderBy,
-      @Query("$select") String select,
-      @Query("$top") Integer maxResults
+      @Query("$select") String select
   );
   
   @GET("v1.0/me/mailfolders/{folderid}/")

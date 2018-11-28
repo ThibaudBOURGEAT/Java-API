@@ -40,12 +40,13 @@ public class OutlookMailService {
 		String properties = "receivedDateTime,from,isRead,subject,bodyPreview";
 		Integer maxResults = 10;
 		
-	    for(OutlookAccount account : appUser.getOutlookAccount()) {
+	    for(OutlookAccount account : appUser.getOutlookAccounts()) {
 	    	Token tokens = AuthHelper.ensureTokens(account.getToken(), account.getTenantId());	
 	    	OutlookService outlookService = OutlookServiceBuilder
 					.getOutlookService(tokens.getAccessToken());
 	        try {
-	        	PagedResult<Message> emails = outlookService.getMessages(folder, sort, properties, maxResults).execute()
+	        	PagedResult<Message> emails = outlookService.getMessages(folder, sort, properties, maxResults)
+	        			.execute()
 						.body();
 	        	users.add(account.getName());
 	        	messages.add(emails.getValue());
@@ -62,7 +63,7 @@ public class OutlookMailService {
 	public int getNbMailInboxForAllAccount(String userKey) {
 		AppUser appUser = appUserRepo.findByName(userKey);
 		int totalMailInbox = 0;
-		for(OutlookAccount account : appUser.getOutlookAccount()) {
+		for(OutlookAccount account : appUser.getOutlookAccounts()) {
 			Token tokens = AuthHelper.ensureTokens(account.getToken(), account.getTenantId());	
 	    	OutlookService outlookService = OutlookServiceBuilder
 					.getOutlookService(tokens.getAccessToken());
@@ -75,18 +76,4 @@ public class OutlookMailService {
 		}	
 		return totalMailInbox;
 	}
-	/*AppUser appUser = repository.findByName(userid);
-    List<OutlookAccount> otAccounts = appUser.getOutlookAccounts();
-    Integer total = 0;
-    for(int i=0; i < otAccounts.size(); i++) {
-        OutlookService outlookService = OutlookServiceFactory.getOutlookService(otAccounts.get(i).getIdToken());
-        try {
-            MailFolder mailFolder = outlookService.getMailFolders("INBOX").execute().body();
-            total += mailFolder.getUnreadItemCount();
-        }catch(IOException e) {
-            return -1;
-        }
-
-    }*/
-
 }

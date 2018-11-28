@@ -32,7 +32,7 @@ import fr.ynov.dap.dap.repository.AppUserRepository;
  * The Class CalendarService.
  */
 @Service
-public class CalendarService extends GoogleService { 
+public class GoogleCalendarService extends GoogleService { 
 	
 	@Autowired
     private AppUserRepository appUserRepo;
@@ -42,7 +42,7 @@ public class CalendarService extends GoogleService {
 	/**
 	 * Instantiates a new calendar service.
 	 */
-	public CalendarService() {
+	public GoogleCalendarService() {
 		super();
 	}
 	
@@ -93,7 +93,7 @@ public class CalendarService extends GoogleService {
         return calendarRes;
 	}
 	
-	public GoogleCalendarResponse getNextEventAllAccount(final String userKey) throws IOException, GeneralSecurityException, NoEventExeption {
+	public GoogleCalendarResponse getNextEventForAllAccounts(final String userKey) throws IOException, GeneralSecurityException, NoEventExeption {
 		LOG.info("getNextEventAllAccount");
 		AppUser user = appUserRepo.findByName(userKey);
 		ArrayList<GoogleCalendarResponse> events = new ArrayList<>();
@@ -107,7 +107,8 @@ public class CalendarService extends GoogleService {
 			}
 		}
 		if(events.size() == 0) {
-			throw new NoEventExeption();
+			LOG.warn("No events available for google.");
+			return null;
 		}
 		
 		Collections.sort(events, new SortByDate());

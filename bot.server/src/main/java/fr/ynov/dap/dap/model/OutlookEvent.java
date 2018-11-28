@@ -3,7 +3,7 @@ package fr.ynov.dap.dap.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Event {
+public class OutlookEvent {
   private String id;
   private String subject;
   private Recipient organizer;

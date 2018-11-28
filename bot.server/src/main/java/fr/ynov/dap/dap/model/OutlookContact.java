@@ -3,7 +3,7 @@ package fr.ynov.dap.dap.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Contact {
+public class OutlookContact {
   private String id;
   private String givenName;
   private String surname;
