@@ -1,5 +1,7 @@
 package fr.ynov.dap.dap;
 
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +25,10 @@ public class Launcher {
 	 * Load conf.
 	 *
 	 * @return the config
+	 * @throws IOException 
 	 */
 	@Bean
-	public Config loadConf() {
+	public Config loadConf() throws IOException {
 		return new Config();
 	}
 	
